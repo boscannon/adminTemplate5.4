@@ -1,0 +1,1 @@
+Codebase.helpersOnLoad(["jq-slick"]);
