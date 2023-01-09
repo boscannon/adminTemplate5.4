@@ -26,6 +26,8 @@ class CreateLanguagesTable extends Migration
         dump('建立資料夾');
         $dir = 'public/'.config('app.upload');
         !is_dir($dir) && mkdir($dir);
+        $dir = 'public/'.config('app.tmp');
+        !is_dir($dir) && mkdir($dir);        
     }
 
     /**

@@ -3,7 +3,9 @@
 /public/storage
 /public/magazine
 /public/upload
+/public/tmp
 /storage/*.key
+/storage
 /vendor
 .env
 .env.backup

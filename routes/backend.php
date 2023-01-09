@@ -47,6 +47,9 @@ Route::group(['as' => 'backend.', 'prefix' => 'backend'],function () {
             Route::resource('/roles', Controllers\Backend\RoleController::class);  
         });   
 
+        Route::post('/tmp_files', [Controllers\Backend\TmpFileController::class, 'store'])->name('tmp_files.store');
+        Route::delete('/tmp_files', [Controllers\Backend\TmpFileController::class, 'destroy'])->name('tmp_files.destroy');
+
         Route::post('/upload', [Controllers\Backend\UploadController::class, 'store'])->name('upload.store');
         Route::delete('/upload', [Controllers\Backend\UploadController::class, 'destroy'])->name('upload.destroy');
     });

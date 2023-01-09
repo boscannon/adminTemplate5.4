@@ -28,11 +28,25 @@
                             <div class="form-group col-md-12 mb-4">
                                 <label>{{ __("backend.$routeNameData.images") }}</label>    
                                 <fieldset class="image">
-                                    @foreach($data->getMedia('images') as $value)
-                                    <input value="{{ $value->getFullUrl() }}" checked type="checkbox" />{{ $value->getFullUrl() }}
-                                    @endforeach
                                     <input type="file" name="images[]" data-allow-reorder="true" multiple accept="image/*" />    
                                 </fieldset>  
+                                <div class="row items-push">
+                                @foreach($data->getMedia('images') as $value)
+                                <div class="col-md-4 animated fadeIn">
+                                    <div class="options-container text-center">
+                                        <img class="img-fluid options-item" src="{{ $value->getFullUrl() }}" alt="">
+                                            <div class="options-overlay bg-black-75">
+                                            <div class="options-overlay-content">
+                                                <h4 class="h6 text-white-75 mb-3">{{ $value->file_name }}</h4>
+                                                <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)">
+                                                    <i class="fa fa-times opacity-50 me-1"></i> Delete
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                                @endforeach         
+                                </div>                         
                             </div>                                                
                         </div>
                     </div>
