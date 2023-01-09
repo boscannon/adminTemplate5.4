@@ -31,4 +31,8 @@ return [
     'name' => '角色名稱',
     'permissions' => '角色權限'
   ],
+  'posts' => [
+    'name' => '名稱',
+    'images' => '圖片(可多選)'
+  ],  
 ];
