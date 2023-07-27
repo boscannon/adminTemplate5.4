@@ -1,7 +1,7 @@
 @extends('backend.layouts.main')
 
 @section('content')
-    @component("backend.partials.form")
+    @component("backend.components.form")
         @slot('formContent')
             <form id="formData" action="{{ route('backend.'.$routeNameData.'.store') }}" method="post">
                 @csrf
