@@ -1,6 +1,6 @@
 <div class="block" id="formBlock" style="visibility: hidden;">
     <div class="block-header block-header-default">
-        <h3 class="block-title">{{ isset($edit) ? __('edit') : __('create') }}</h3>
+        <h3 class="block-title">{{ isset($data) ? __('edit') : __('create') }}</h3>
     </div>
     <div class="block-content block-content-full">
         <div class="block">
@@ -10,7 +10,7 @@
                       <i class="fa fa-fw fa-home opacity-50 me-1 d-none d-sm-inline-block"></i>{{ __('basic_data') }}</a>
                     </button>
                   </li>
-                  @isset($edit)
+                  @isset($data)
                   <li class="nav-item d-md-flex flex-md-column">
                     <button class="nav-link fs-sm text-md-start rounded-0" data-bs-toggle="tab" data-bs-target="#btabs-vertical-audit" role="tab" aria-controls="btabs-vertical-audit" aria-selected="false">
                       <i class="fa fa-fw fa-window-restore opacity-50 me-1 d-none d-sm-inline-block"></i>{{ __('audit') }}</a>
@@ -22,7 +22,7 @@
                 <div class="tab-pane active" id="btabs-vertical-home" role="tabpanel" aria-labelledby="btabs-vertical-home-tab" tabindex="0">
                     {{ $formContent }}
                 </div>
-                @isset($edit)
+                @isset($data)
                 <div class="tab-pane" id="btabs-vertical-audit" role="tabpanel" aria-labelledby="btabs-vertical-audit-tab" tabindex="0">
                     <x-backend.audit :table="$routeNameData" :tableid="$data->id">
                     </x-backend.audit>

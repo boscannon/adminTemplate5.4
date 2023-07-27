@@ -1,7 +1,7 @@
 @extends('backend.layouts.main')
 
 @section('content')
-    <x-backend.form :data="$data" :edit="true">
+    <x-backend.form :data="$data">
         <x-slot:formContent>
             <form id="formData" action="{{ route('backend.'.$routeNameData.'.update',[$routeIdData => $data->id]) }}" method="post">
                 @csrf
