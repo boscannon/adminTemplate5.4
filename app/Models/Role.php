@@ -23,15 +23,11 @@ class Role extends RoleParent
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];    
-
+    
     public static $audit = [
-        //要紀錄欄位
-        'only' => [
-            'name',           
-        ],
         //多對多
         'many' => [
             'permissions' => 'name'
-        ]         
-    ];    
+        ]
+    ];
 }

@@ -11,25 +11,33 @@ use DateTimeInterface;
 trait ObserverTrait
 {
     use ModelShareTrait;
-    
+
     use \Altek\Eventually\Eventually;
 
     protected static function booted()
     {
+        if(method_exists(static::class, 'customObs')){
+            static::customObs();
+        }
         static::created(function ($model) {
             $event = __('create');
             $auditing = [];
 
             $old_values = [];
             $new_values = [];
-            foreach(static::$audit['only'] as $value){
+            foreach($model->getFillable() as $value){
                 if($model->{$value} != ''){
                     $new_values[$value] = $model->{$value};
+
+                    $name = isset(static::$audit['table']) ?
+                        __('backend.'.(new static::$audit['table'])->getTable().'.'.$model->getTable().'.*.'.$value) :
+                        __('backend.'.$model->getTable().'.'.$value);
+
                     $auditing[] = __('backend.audits.created', [
-                        'name' => __('backend.'.$model->getTable().'.'.$value),
+                        'name' => $name,
                         'new' => static::translation($model, $value),
                     ]);
-                } 
+                }
             }
 
             static::createAudit($model, $event, $auditing, $old_values, $new_values);
@@ -41,12 +49,17 @@ trait ObserverTrait
 
             $old_values = [];
             $new_values = [];
-            foreach(static::$audit['only'] as $value){
+            foreach($model->getFillable() as $value){
                 if($model->getRawOriginal($value) != $model->{$value}){
                     $old_values[$value] = $model->getRawOriginal($value);
                     $new_values[$value] = $model->{$value};
+
+                    $name = isset(static::$audit['table']) ?
+                        __('backend.'.(new static::$audit['table'])->getTable().'.'.$model->getTable().'.*.'.$value) :
+                        __('backend.'.$model->getTable().'.'.$value);
+
                     $auditing[] = __('backend.audits.updated', [
-                        'name' => __('backend.'.$model->getTable().'.'.$value),
+                        'name' => $name,
                         'new' => static::translation($model, $value),
                     ]);
                 }
@@ -54,47 +67,59 @@ trait ObserverTrait
 
             static::createAudit($model, $event, $auditing, $old_values, $new_values);
         });
-        
+
         static::deleted(function ($model) {
             $event = __('delete');
             $auditing = [];
 
             $old_values = [];
             $new_values = [];
-            foreach(static::$audit['only'] as $value){
+            foreach($model->getFillable() as $value){
                 if($model->{$value} != ''){
                     $old_values[$value] = $model->{$value};
+
+                    $name = isset(static::$audit['table']) ?
+                        __('backend.'.(new static::$audit['table'])->getTable().'.'.$model->getTable().'.*.'.$value) :
+                        __('backend.'.$model->getTable().'.'.$value);
+
                     $auditing[] = __('backend.audits.deleted', [
-                        'name' => __('backend.'.$model->getTable().'.'.$value),
+                        'name' => $name,
                         'old' => static::translation($model, $value),
                     ]);
                 }
             }
 
             static::createAudit($model, $event, $auditing, $old_values, $new_values);
-        });       
-        
+        });
+
         static::synced(function ($model, $relation, $properties) {
             $event = __('edit');
             $auditing = [];
 
             $old_values = [];
             $new_values = [];
-            foreach(static::$audit['many'] as $key => $value){
-                $new = [];
-                foreach($model->{$key} as $many_value){
-                    $new_values[$value][] = $many_value->{$value};
-                    if($relation === 'permissions'){ //權限
-                        list($action, $menu) = explode(" ", $many_value->{$value});
-                        $new[] = __("backend.menu.$menu").' '.__($action);
-                    }else{
-                        $new[] = $many_value->{$value};
+            if(isset(static::$audit['many'])){
+                foreach(static::$audit['many'] as $key => $value){
+                    $new = [];
+                    foreach($model->{$key} as $many_value){
+                        $new_values[$value][] = $many_value->{$value};
+                        if($relation === 'permissions'){ //權限
+                            list($action, $menu) = explode(" ", $many_value->{$value});
+                            $new[] = __("backend.menu.$menu").' '.__($action);
+                        }else{
+                            $new[] = $many_value->{$value};
+                        }
                     }
-                }   
-                $auditing[] = __('backend.audits.updated', [
-                    'name' => __('backend.'.$model->getTable().'.'.$key),
-                    'new' => implode(",", $new),
-                ]);  
+
+                    $name = isset(static::$audit['table']) ?
+                        __('backend.'.(new static::$audit['table'])->getTable().'.'.$model->getTable().'.*.'.$key) :
+                        __('backend.'.$model->getTable().'.'.$key);
+
+                    $auditing[] = __('backend.audits.updated', [
+                        'name' => $name,
+                        'new' => "\n\t".implode("\n\t", $new)."\n",
+                    ]);
+                }
             }
 
             static::createAudit($model, $event, $auditing, $old_values, $new_values);
@@ -110,7 +135,7 @@ trait ObserverTrait
                     $obj['replace'][] = $item;
                 });
                 $tmp = str_replace($obj['search'], $obj['replace'], static::$audit['translation'][$value]['format'], $count);
-                
+
                 if($count == 0) return '';
                 return $tmp;
             }
@@ -132,10 +157,13 @@ trait ObserverTrait
                 if($count == 0) return '';
                 return $tmp;
             }
+            if(is_object($model->{$value})) {
+                return json_encode($model->{$value}, JSON_UNESCAPED_UNICODE);
+            }
             if ($model->{$value} instanceof \Illuminate\Support\Collection) {
                 return json_encode($model->{$value}, JSON_UNESCAPED_UNICODE);
             }
-            
+
             return $model->{$value};
         }
     }

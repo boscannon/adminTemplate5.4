@@ -3,7 +3,7 @@
 @section('content')
     @component("backend.partials.form")
         @slot('formContent')
-            <form id="form-create" action="{{ route('backend.'.$routeNameData.'.store') }}" method="post">
+            <form id="formData" action="{{ route('backend.'.$routeNameData.'.store') }}" method="post">
                 @csrf
                 <div class="form-row">
                     <div class="form-group col-md-12 mb-4">

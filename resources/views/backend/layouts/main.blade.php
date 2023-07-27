@@ -600,6 +600,7 @@
                     $("#form-edit [type='submit']").hide();
                     $("#form-edit .css-switch").addClass('disabled');
                 @endisset
+
         });
     </script>
         <script>
@@ -645,6 +646,12 @@
             }
             // setInterval("getNotify()", 5000);
           --}}
+
+          function successFunc(data, path){
+            Swal.fire({ text: data.message, icon: 'success' }).then(function() {
+                // location.href = path;
+            });
+          }          
         </script>
     @stack('scripts')
 </body>

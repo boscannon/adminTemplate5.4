@@ -20,6 +20,8 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use HasRoles;
 
+    use \App\Traits\ObserverTrait;
+
     protected $guard_name = 'admin';
 
     /**
@@ -66,6 +68,25 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * 異動記錄設定 1
+     *
+     * @var array
+     */
+    public static $audit = [
+        //關聯轉換
+        // 'translation' => [
+        //     'staff_id' => [               //關聯欄位
+        //         'relation' => 'staff',   //關聯名稱
+        //         'name' => 'name',       //顯示欄位
+        //     ]
+        // ],
+        //多對多
+        'many' => [
+            'roles' => 'name'
+        ]
+    ];    
     
     public function getSuperAdminAttribute()
     {
