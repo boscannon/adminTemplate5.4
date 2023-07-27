@@ -9,5 +9,5 @@ return [
             [ 'active' => 'users_setting/users*', 'name' => 'users', 'title' => 'users', 'routeId' => 'user', 'permissions' => 'users' ],
         ]
     ],
-    [ 'active' => 'audits*', 'name' => 'audits', 'title' => 'audits', 'routeId' => 'audit', 'permissions' => 'audits' ],
+    // [ 'active' => 'audits*', 'name' => 'audits', 'title' => 'audits', 'routeId' => 'audit', 'permissions' => 'audits' ],
 ];
