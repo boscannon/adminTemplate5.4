@@ -9,6 +9,7 @@ return [
 
     'test' => '測試',
     'template' => '模板',
+    'audits' => '異動紀錄',
   ],
   'audits' => [
     'user' => '管理員',
@@ -17,6 +18,7 @@ return [
     'created' => '「:name」 => [:new]',
     'updated' => '「:name」 => [:new]',
     'deleted' => '「:name」 => [:old]',
+    'menu' => '選單',
   ],
   'users' => [
     'name' => '名稱',

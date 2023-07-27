@@ -10,15 +10,28 @@ use Exception;
 
 class AuditController extends Controller
 {
+    public function __construct() {
+        $this->name = 'audits';
+        $this->view = 'backend.'.$this->name;
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = CrudModel::with(['user'])->where([
-                'table' => $request->table,
-                'table_id' => $request->table_id,
-            ]);
+            $data = CrudModel::with(['user'])
+            ->when($request->has('table'), function($query) use ($request) {
+                $query->where('table', $request->table);
+            })
+            ->when($request->has('table_id'), function($query) use ($request) {
+                $query->where('table_id', $request->table_id);
+            });  
+
             return Datatables::eloquent($data)
-                ->make(true);
+                ->addColumn('menu', function($model) {
+                    return __("backend.menu.{$model->table}") ?? $model->table;
+                })               
+                ->toJson();
         }
+        return view($this->view.'.index');
     }
 }
