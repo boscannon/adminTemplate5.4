@@ -11,7 +11,7 @@
   <meta name="author" content="pixelcave">
   <meta name="robots" content="noindex, nofollow">
 
-  
+
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -29,24 +29,24 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
 
   <!-- Modules -->
+    <link rel="stylesheet" href="{{ asset('/js/plugins/select2/css/select2.css') }}">
     @vite(['resources/sass/main.scss', 'resources/js/codebase/app.js'])
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
-    <link rel="stylesheet" href="{{ asset('/js/plugins/select2/css/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('/js/plugins/sweetalert2/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/plugins/magnific-popup/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/summernote/summernote-bs4.css') }}">        
+    <link rel="stylesheet" href="{{ asset('js/plugins/summernote/summernote-bs4.css') }}">
     <link href="{{ asset('plugins/filepond/dist/filepond.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('js/plugins/vakata-jstree/themes/default/style.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css') }}">    
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css') }}">
     <style>
         .table-bordered thead th{
             border-bottom: 2px solid #e4e7ed;
         }
         .img-lightbox img{
-            height: 100%; 
+            height: 100%;
         }
         .img-lightbox:hover {
             transform: scale(1.4);
@@ -54,20 +54,20 @@
         }
         .select2-results__option[aria-disabled=true]{
             display: none;
-        }            
+        }
         .select2-container--default .select2-results__option[aria-disabled=true] {
             display: none;
-        }        
+        }
         .nav-main li{
             display: none;
-        }     
+        }
     </style>
     @if(!auth()->user()->can("create $permissionsData"))
         <style>
             a[href*={{ $permissionsData }}][href*=create]{
                 display: none;
             }
-        </style>      
+        </style>
     @endif
     @if(!auth()->user()->can("edit $permissionsData"))
         <style>
@@ -75,26 +75,27 @@
                 display: none;
             }
         </style>
-    @endif        
+    @endif
     @if(!auth()->user()->can("delete $permissionsData"))
-        <style>            
+        <style>
             a.delete{
                 display: none;
             }
-        </style>                    
-    @endif               
+        </style>
+    @endif
 
     @stack('css')
     <!-- Scripts -->
-    <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>  
+    <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
 
-    
+
 
     <!-- Alternatively, you can also include a specific color theme after the main stylesheet to alter the default color theme of the template -->
     {{-- @vite(['resources/sass/main.scss', 'resources/sass/codebase/themes/corporate.scss', 'resources/js/codebase/app.js']) --}}
 </head>
 
 <body>
+  <form id="logoutForm" action="{{route('backend.logout')}}" method="POST">@csrf</form>
   <!-- Page Container -->
   <!--
     Available classes for #page-container:
@@ -222,41 +223,41 @@
           <div class="dropdown d-inline-block">
             <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-user d-sm-none"></i>
-              <span class="d-none d-sm-inline-block fw-semibold">J. Smith</span>
+              <span class="d-none d-sm-inline-block fw-semibold">{{ Auth::user()->name }}</span>
               <i class="fa fa-angle-down opacity-50 ms-1"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0" aria-labelledby="page-header-user-dropdown">
               <div class="px-2 py-3 bg-body-light rounded-top">
                 <h5 class="h6 text-center mb-0">
-                  John Smith
+                  {{ Auth::user()->name }}
                 </h5>
               </div>
               <div class="p-2">
-                <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="javascript:void(0)">
+                <!-- <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="javascript:void(0)">
                   <span>Profile</span>
                   <i class="fa fa-fw fa-user opacity-25"></i>
                 </a>
                 <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                  <span>Inbox</span>  
+                  <span>Inbox</span>
                   <i class="fa fa-fw fa-envelope-open opacity-25"></i>
                 </a>
                 <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="javascript:void(0)">
                   <span>Invoices</span>
                   <i class="fa fa-fw fa-file opacity-25"></i>
                 </a>
-                <div class="dropdown-divider"></div>
-      
+                <div class="dropdown-divider"></div> -->
+
                 <!-- Toggle Side Overlay -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">
-                  <span>Settings</span>
+                <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="{{ route('backend.edit_password.index') }}">
+                  <span>{{ __('edit_password') }}</span>
                   <i class="fa fa-fw fa-wrench opacity-25"></i>
                 </a>
                 <!-- END Side Overlay -->
-      
+
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="javascript:void(0)">
-                  <span>Sign Out</span>
+                <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="javascript:void(0)" onclick="$('#logoutForm').submit()">
+                  <span>{{ __('sign_out') }}</span>
                   <i class="fa fa-fw fa-sign-out-alt opacity-25"></i>
                 </a>
               </div>
@@ -344,9 +345,9 @@
 
           <!-- Toggle Side Overlay -->
           <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-          <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle">
+          <!-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle">
             <i class="fa fa-fw fa-stream"></i>
-          </button>
+          </button> -->
           <!-- END Toggle Side Overlay -->
         </div>
         <!-- END Right Section -->
@@ -439,11 +440,10 @@
     <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
     <script>
         function decodeEntities(encodedString) {
-            console.log(encodedString);
             var div = document.createElement('div');
             div.innerHTML = encodedString;
             return div.textContent;
-        }             
+        }
         $(function() {
             $.ajaxSetup({
                 headers: {
@@ -457,7 +457,7 @@
             $( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
                 if(thrownError === 'abort'){
                     return;
-                }                
+                }
                 var meessage = [];
                 if(jqxhr.responseJSON && jqxhr.responseJSON.errors){
                     $.each(jqxhr.responseJSON.errors,function(key,value){
@@ -467,7 +467,7 @@
                     meessage.push(jqxhr.responseJSON.message);
                 }else{
                     meessage.push(thrownError);
-                }            
+                }
                 Swal.fire({ html: meessage.join('<br />'), icon: 'error' })
             });
 
@@ -476,9 +476,9 @@
                 fnDrawCallback: function () {
                     Codebase.helpers('magnific-popup');
                 },
-            } );     
+            } );
 
-            Codebase.helpers(['summernote']);  
+            Codebase.helpers(['summernote']);
             Codebase.helpers('magnific-popup');
             Codebase.helpers('select2');
             FilePond.registerPlugin(
@@ -486,11 +486,11 @@
                 FilePondPluginImageExifOrientation,
                 FilePondPluginFileValidateType,
                 FilePondPluginFileEncode
-            );       
+            );
             FilePond.setOptions({
                 allowPaste: false
             });
-            
+
             $('.summernote').each(function(){
                 let _this = $(this);
                 _this.summernote({
@@ -513,17 +513,17 @@
                                     // $(this).summernote('editor.insertImage', url);
                                 }
                             });
-                            
+
                         }
                     }
-                });  
-            });              
-                    
+                });
+            });
+
             $('form .css-switch input[type="checkbox"]').change(function(){
                 var status = $(this).prop('checked') ? 1 : 0;
                 $(this).next().val(status);
             })
-        
+
             function chageLanguage(change = ''){
                 var language_id = $('select[name="language_id"]').val() ;
                 $('.js-select2:not([not-language])').find(`option, optgroup`).attr('disabled', 'disabled');
@@ -535,10 +535,10 @@
 
             $('select[name="language_id"]').change(function() {
                 chageLanguage(true);
-            })    
+            })
 
             // chageLanguage(false);
-            
+
             function checkMenu(menus) {
                 var check = false;
                 menus.each(function() {
@@ -569,8 +569,76 @@
             }
 
             checkMenu($('.nav-main > li'));
+
+            $('.js-select2[data-ajax--url]').each(function(){
+                    let name = $(this).attr('name');
+                    $(this).select2({
+                        allowClear: true,
+                        ajax: {
+                            processResults: function(data, page) {
+                                return {
+                                    results: data.map(item => { return {
+                                        id: item.id,
+                                        text: item.name || item.no
+                                    } })
+                                }
+                            },
+                        }
+                    });
+                })
+
+                //show
+                @isset($show)
+                    $("#form-edit [name]").attr('disabled', 'disabled');
+                    $("#form-edit [type='submit']").hide();
+                    $("#form-edit .css-switch").addClass('disabled');
+                @endisset
         });
     </script>
+        <script>
+          {{--
+            function getNotify() {
+                $.ajax({
+                    url: `{{route('backend.notify.index')}}`,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(result) {
+                        $('#message_count').text(result.count);
+                        let str = '';
+                        result.messages.map((item) => {
+                            str += `<li>
+                                <a class="text-body-color-dark media mb-15" href="{{route('backend.messages.index')}}/${item.id}">
+                                    <div class="ml-5 mr-15">
+                                        <i class="fa fa-fw fa-inbox text-success"></i>
+                                    </div>
+                                    <div class="media-body pr-10">
+                                        <p class="mb-0">${item.title}</p>
+                                        <div class="text-muted font-size-sm font-italic">${item.created_at}</div>
+                                    </div>
+                                </a>
+                            </li>`
+                        });
+                        $('#message_content').html(str);
+                        if(result.new) {
+                            result.new.map((item) => {
+                                let d = new Date(item.created_at)
+                                Codebase.helpers('notify', {
+                                    align: 'right',             // 'right', 'left', 'center'
+                                    from: 'top',                // 'top', 'bottom'
+                                    type: 'warning',               // 'info', 'success', 'warning', 'danger'
+                                    icon: 'fa fa-info mr-5',    // Icon class
+                                    message: `[${d.toLocaleString()}] - ${item.title}`
+                                });
+
+                            })
+                        }
+
+                    }
+                })
+            }
+            // setInterval("getNotify()", 5000);
+          --}}
+        </script>
     @stack('scripts')
 </body>
 

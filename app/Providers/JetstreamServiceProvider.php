@@ -46,11 +46,11 @@ class JetstreamServiceProvider extends ServiceProvider
                 PrepareAuthenticatedSession::class,
             ]);
         });
-        
+
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('email', $request->email)->first();
 
-            if ($user->status != 1) {
+            if ($user && $user->status != 1) {
                 throw ValidationException::withMessages([
                     Fortify::username() => __('user disabled'),
                 ]);

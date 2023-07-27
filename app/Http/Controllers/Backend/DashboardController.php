@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function __construct() {
         $this->name = 'dashboard';
-        $this->view = 'backend.pages.'.$this->name;
+        $this->view = 'backend.'.$this->name;
     }
 
     public function index(Request $request)
@@ -23,7 +23,7 @@ class DashboardController extends Controller
         if($permissions->search('read dashboard') !== false || auth()->user()->super_admin){
             return view($this->view.'.index');
         }
-        
+
         if(!$permissions->first()){
             abort(403);
         }

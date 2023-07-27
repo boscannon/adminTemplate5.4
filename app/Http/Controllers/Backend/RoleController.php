@@ -7,28 +7,25 @@ use Illuminate\Http\Request;
 use App\Models\Role as crudModel;
 use Spatie\Permission\Models\Permission;
 use DataTables;
-use Exception;
+use App\Exceptions\ErrorException as Exception;
 use DB;
 
 class RoleController extends Controller
 {
     public function __construct() {
         $this->name = 'roles';
-        $this->view = 'backend.pages.'.$this->name;
+        $this->view = 'backend.'.$this->name;
         $this->rules = [
             'name' => ['required', 'string', 'max:50', 'unique:App\Models\Role,name'],
             'permissions' => ['nullable', 'array'],
         ];
         $this->messages = [];
-        $this->attributes = [
-            'name' => __("backend.{$this->name}.name"),
-            'permissions' => __("backend.{$this->name}.permissions"),
-        ];
+        $this->attributes = __("backend.{$this->name}");
         $this->actions = [
-            [ 'name' => __('read'), 'permissions' => 'read' ],
-            [ 'name' => __('create'), 'permissions' => 'create' ],
-            [ 'name' => __('edit'), 'permissions' => 'edit' ],
-            [ 'name' => __('delete'), 'permissions' => 'delete' ],
+            [ 'name' => 'read', 'permissions' => 'read' ],
+            [ 'name' => 'create', 'permissions' => 'create' ],
+            [ 'name' => 'edit', 'permissions' => 'edit' ],
+            [ 'name' => 'delete', 'permissions' => 'delete' ],
         ];
     }
 
@@ -69,7 +66,7 @@ class RoleController extends Controller
             DB::beginTransaction();
 
             $data = CrudModel::create(array_merge($validatedData, ['guard_name' => config('fortify.guard')]));
-            $data->syncPermissions($this->syncPermissions($validatedData['permissions']));
+            $data->syncPermissions($this->syncPermissions($validatedData['permissions'] ?? []));
 
             DB::commit();
             return response()->json(['message' => __('create').__('success')]);
@@ -80,28 +77,41 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function show($id)
     {
         $this->authorize('read '.$this->name);
-        return CrudModel::findOrFail($id); 
+
+        $data = CrudModel::findOrFail($id);
+        if (request()->ajax()) {
+            return $data;
+        }
+
+        return view($this->view.'.edit')->with([
+            'data' => $data,
+            'show' => true,
+            'actions' => $this->actions,
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function edit($id)
-    { 
+    {
         $this->authorize('edit '.$this->name);
-        $data = CrudModel::findOrFail($id);
-        return view($this->view.'.edit',compact('data'))->with('actions', $this->actions);
+
+        return view($this->view.'.edit')->with([
+            'data' => CrudModel::findOrFail($id),
+            'actions' => $this->actions,
+        ]);
     }
 
     /**
@@ -183,13 +193,13 @@ class RoleController extends Controller
                 if(isset($value['child'])){
                     $checkmenuData($value['child']);
                 }else{
-                    collect($this->actions)->each(function ($action) use ($value, &$menu) {
+                    collect(array_merge($value['add_action'] ?? [], ($value['actions'] ?? $this->actions)))->each(function ($action) use ($value, &$menu) {
                         $menu->push("{$action['permissions']} {$value['permissions']}");
                     });
                 }
             }
         };
-        $checkmenuData(config('menu'));
+        $checkmenuData(array_merge(config('menu'), config('exceptionPermissions') ?? []));
 
         $data = [];
         foreach($permissions as $permission){
@@ -198,6 +208,7 @@ class RoleController extends Controller
                 $data[] = $permission;
             }
         }
+
         return $data;
     }
 
@@ -217,5 +228,5 @@ class RoleController extends Controller
                 ->get();
             return $data;
         }
-    }        
+    }
 }

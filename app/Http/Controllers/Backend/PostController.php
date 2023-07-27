@@ -13,13 +13,13 @@ class PostController extends Controller
 {
     public function __construct() {
         $this->name = 'posts';
-        $this->view = 'backend.pages.'.$this->name;
-        $this->rules = [            
+        $this->view = 'backend.'.$this->name;
+        $this->rules = [
             'name' => ['required', 'string', 'max:150'],
             'images' => ['nullable', 'array'],
         ];
-        $this->messages = []; 
-        $this->attributes = __("backend.{$this->name}");   
+        $this->messages = [];
+        $this->attributes = __("backend.{$this->name}");
     }
 
     public function index(Request $request)
@@ -83,7 +83,7 @@ class PostController extends Controller
     public function show($id)
     {
         $this->authorize('read '.$this->name);
-        return CrudModel::findOrFail($id); 
+        return CrudModel::findOrFail($id);
     }
 
     /**
@@ -93,7 +93,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    { 
+    {
         $this->authorize('edit '.$this->name);
         $data = CrudModel::findOrFail($id);
         return view($this->view.'.edit')->with('data', $data);
@@ -110,14 +110,14 @@ class PostController extends Controller
     {
         $this->authorize('edit '.$this->name);
         $validatedData = $request->validate($this->rules, $this->messages, $this->attributes);
-        
+
         try{
             DB::beginTransaction();
 
             $data = CrudModel::findOrFail($id);
             $data->update($validatedData);
 
-            $data->clearMediaCollection('images'); 
+            $data->clearMediaCollection('images');
             foreach($validatedData['images'] as $value){
                 if($value = json_decode($value, true)){
                     $data->addMediaFromBase64($value['data'])->usingFileName($value['name'])->toMediaCollection('images');
@@ -149,7 +149,7 @@ class PostController extends Controller
             return response()->json(['message' => $e->getMessage()],422);
         }
     }
-    
+
     /**
      * status  the specified resource in storage.
      *
@@ -161,7 +161,7 @@ class PostController extends Controller
     {
         $this->authorize('edit '.$this->name);
         $validatedData = $request->validate(['status' => ['required', 'boolean']], [], ['status' => __('status'),]);
-        
+
         try{
             $data = CrudModel::findOrFail($id);
             $data->update($validatedData);
@@ -169,5 +169,5 @@ class PostController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()],422);
         }
-    }    
+    }
 }

@@ -14,8 +14,8 @@ class UserController extends Controller
 {
     public function __construct() {
         $this->name = 'users';
-        $this->view = 'backend.pages.'.$this->name;
-        $this->rules = [            
+        $this->view = 'backend.'.$this->name;
+        $this->rules = [
             'name' => ['required', 'string', 'max:150'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:App\Models\User'],
             'roles' => ['required', 'array'],
@@ -23,8 +23,8 @@ class UserController extends Controller
             'password' => ['required', 'string', 'confirmed', 'min:6'],
             'status' => ['required', 'boolean'],
         ];
-        $this->messages = []; 
-        $this->attributes = __("backend.{$this->name}");   
+        $this->messages = [];
+        $this->attributes = __("backend.{$this->name}");
     }
 
     public function index(Request $request)
@@ -76,16 +76,26 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function show($id)
     {
         $this->authorize('read '.$this->name);
-        return CrudModel::findOrFail($id); 
+
+        $data = CrudModel::findOrFail($id);
+        if (request()->ajax()) {
+            return $data;
+        }
+
+        return view($this->view.'.edit')->with([
+            'data' => $data,
+            'show' => true
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -94,7 +104,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    { 
+    {
         $this->authorize('edit '.$this->name);
         $data = CrudModel::findOrFail($id);
         $roles = Role::all();
@@ -116,7 +126,7 @@ class UserController extends Controller
             'password'      => ['nullable', 'string', 'confirmed', 'min:6'],
         ]);
         $validatedData = $request->validate($this->rules, $this->messages, $this->attributes);
-        
+
         try{
             DB::beginTransaction();
 
@@ -154,7 +164,7 @@ class UserController extends Controller
             return response()->json(['message' => $e->getMessage()],422);
         }
     }
-    
+
     /**
      * status  the specified resource in storage.
      *
@@ -166,7 +176,7 @@ class UserController extends Controller
     {
         $this->authorize('edit '.$this->name);
         $validatedData = $request->validate(['status' => ['required', 'boolean']], [], ['status' => __('status'),]);
-        
+
         try{
             $data = CrudModel::findOrFail($id);
             $data->update($validatedData);
@@ -174,5 +184,5 @@ class UserController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()],422);
         }
-    }    
+    }
 }

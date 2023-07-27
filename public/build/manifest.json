@@ -1,35 +1,35 @@
 {
-  "resources/fonts/poppins/poppins-v20-latin-500.woff2": {
-    "file": "assets/poppins-v20-latin-500.cd36de20.woff2",
-    "src": "resources/fonts/poppins/poppins-v20-latin-500.woff2"
-  },
   "resources/fonts/poppins/poppins-v20-latin-300.woff2": {
     "file": "assets/poppins-v20-latin-300.78bc3aa7.woff2",
     "src": "resources/fonts/poppins/poppins-v20-latin-300.woff2"
-  },
-  "resources/fonts/poppins/poppins-v20-latin-regular.woff2": {
-    "file": "assets/poppins-v20-latin-regular.7d93459d.woff2",
-    "src": "resources/fonts/poppins/poppins-v20-latin-regular.woff2"
-  },
-  "resources/fonts/poppins/poppins-v20-latin-600.woff2": {
-    "file": "assets/poppins-v20-latin-600.f4e80d9d.woff2",
-    "src": "resources/fonts/poppins/poppins-v20-latin-600.woff2"
-  },
-  "resources/fonts/fontawesome/fa-regular-400.woff2": {
-    "file": "assets/fa-regular-400.5da313b0.woff2",
-    "src": "resources/fonts/fontawesome/fa-regular-400.woff2"
-  },
-  "resources/fonts/fontawesome/fa-solid-900.woff2": {
-    "file": "assets/fa-solid-900.8f06540f.woff2",
-    "src": "resources/fonts/fontawesome/fa-solid-900.woff2"
   },
   "resources/fonts/poppins/poppins-v20-latin-700.woff2": {
     "file": "assets/poppins-v20-latin-700.9338e65f.woff2",
     "src": "resources/fonts/poppins/poppins-v20-latin-700.woff2"
   },
+  "resources/fonts/poppins/poppins-v20-latin-500.woff2": {
+    "file": "assets/poppins-v20-latin-500.cd36de20.woff2",
+    "src": "resources/fonts/poppins/poppins-v20-latin-500.woff2"
+  },
+  "resources/fonts/poppins/poppins-v20-latin-600.woff2": {
+    "file": "assets/poppins-v20-latin-600.f4e80d9d.woff2",
+    "src": "resources/fonts/poppins/poppins-v20-latin-600.woff2"
+  },
+  "resources/fonts/poppins/poppins-v20-latin-regular.woff2": {
+    "file": "assets/poppins-v20-latin-regular.7d93459d.woff2",
+    "src": "resources/fonts/poppins/poppins-v20-latin-regular.woff2"
+  },
+  "resources/fonts/fontawesome/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400.5da313b0.woff2",
+    "src": "resources/fonts/fontawesome/fa-regular-400.woff2"
+  },
   "resources/fonts/fontawesome/fa-brands-400.woff2": {
     "file": "assets/fa-brands-400.c61287c2.woff2",
     "src": "resources/fonts/fontawesome/fa-brands-400.woff2"
+  },
+  "resources/fonts/fontawesome/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900.8f06540f.woff2",
+    "src": "resources/fonts/fontawesome/fa-solid-900.woff2"
   },
   "resources/fonts/simple-line-icons/Simple-Line-Icons.eot": {
     "file": "assets/Simple-Line-Icons.1c823013.eot",
@@ -43,13 +43,13 @@
     "file": "assets/Simple-Line-Icons.104673f4.woff2",
     "src": "resources/fonts/simple-line-icons/Simple-Line-Icons.woff2"
   },
-  "resources/fonts/fontawesome/fa-solid-900.ttf": {
-    "file": "assets/fa-solid-900.e4f6a7e9.ttf",
-    "src": "resources/fonts/fontawesome/fa-solid-900.ttf"
-  },
   "resources/fonts/fontawesome/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400.b1d1c1b0.ttf",
     "src": "resources/fonts/fontawesome/fa-brands-400.ttf"
+  },
+  "resources/fonts/fontawesome/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900.e4f6a7e9.ttf",
+    "src": "resources/fonts/fontawesome/fa-solid-900.ttf"
   },
   "resources/fonts/simple-line-icons/Simple-Line-Icons.ttf": {
     "file": "assets/Simple-Line-Icons.3f501ddb.ttf",
@@ -97,9 +97,9 @@
     "src": "resources/sass/codebase/themes/corporate.scss",
     "isEntry": true
   },
-  "resources/sass/codebase/themes/earth.scss": {
-    "file": "assets/earth.c443c63f.css",
-    "src": "resources/sass/codebase/themes/earth.scss",
+  "resources/sass/codebase/themes/pulse.scss": {
+    "file": "assets/pulse.178ebde8.css",
+    "src": "resources/sass/codebase/themes/pulse.scss",
     "isEntry": true
   },
   "resources/sass/codebase/themes/elegance.scss": {
@@ -107,14 +107,14 @@
     "src": "resources/sass/codebase/themes/elegance.scss",
     "isEntry": true
   },
-  "resources/sass/codebase/themes/pulse.scss": {
-    "file": "assets/pulse.178ebde8.css",
-    "src": "resources/sass/codebase/themes/pulse.scss",
-    "isEntry": true
-  },
   "resources/sass/codebase/themes/flat.scss": {
     "file": "assets/flat.8b550e0f.css",
     "src": "resources/sass/codebase/themes/flat.scss",
+    "isEntry": true
+  },
+  "resources/sass/codebase/themes/earth.scss": {
+    "file": "assets/earth.c443c63f.css",
+    "src": "resources/sass/codebase/themes/earth.scss",
     "isEntry": true
   },
   "resources/sass/main.scss": {

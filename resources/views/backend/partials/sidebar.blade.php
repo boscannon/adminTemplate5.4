@@ -45,7 +45,7 @@
               </a>
               <ul class="list-inline mt-3 mb-0">
                 <li class="list-inline-item">
-                  <a class="link-fx text-dual fs-sm fw-semibold text-uppercase" href="javascript:void(0)">J. Smith</a>
+                  <a class="link-fx text-dual fs-sm fw-semibold text-uppercase" href="javascript:void(0)">{{ Auth::user()->name }}</a>
                 </li>
                 <li class="list-inline-item">
                   <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
@@ -54,7 +54,7 @@
                   </a>
                 </li>
                 <li class="list-inline-item">
-                  <a class="link-fx text-dual" href="javascript:void(0)">
+                  <a class="link-fx text-dual" href="javascript:void(0)" onclick="$('#logoutForm').submit()">
                     <i class="fa fa-sign-out-alt"></i>
                   </a>
                 </li>
@@ -66,7 +66,7 @@
 
           <!-- Side Navigation -->
           <div class="content-side content-side-full">
-                <ul class="nav-main">            
+                <ul class="nav-main">
                     @include('backend.partials.child-sidebar', [ 'menu' => $menuData ])
                 </ul>
           </div>
