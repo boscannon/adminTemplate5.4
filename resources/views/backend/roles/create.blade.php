@@ -1,8 +1,8 @@
 @extends('backend.layouts.main')
 
 @section('content')
-    @component("backend.components.form")
-        @slot('formContent')
+    <x-backend.form>
+        <x-slot:formContent>
             <form id="formData" action="{{ route('backend.'.$routeNameData.'.store') }}" method="post">
                 @csrf
                 <div class="form-row">
@@ -22,7 +22,7 @@
                 <a href="{{ route('backend.'.$routeNameData.'.index') }}" class="btn btn-secondary">{{ __('back') }}</a>
                 <button type="submit" class="btn btn-primary">{{ __('edit') }}</button>
             </form>
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-backend.form>
 @stop
 @include("backend.$routeNameData.js")
