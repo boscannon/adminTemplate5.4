@@ -578,28 +578,29 @@
             checkMenu($('.nav-main > li'));
 
             $('.js-select2[data-ajax--url]').each(function(){
-                    let name = $(this).attr('name');
-                    $(this).select2({
-                        allowClear: true,
-                        ajax: {
-                            processResults: function(data, page) {
-                                return {
-                                    results: data.map(item => { return {
-                                        id: item.id,
-                                        text: item.name || item.no
-                                    } })
-                                }
-                            },
-                        }
-                    });
-                })
+                let name = $(this).attr('name');
+                $(this).select2({
+                    allowClear: true,
+                    ajax: {
+                        processResults: function(data, page) {
+                            return {
+                                results: data.map(item => { return {
+                                    id: item.id,
+                                    text: item.name || item.no
+                                } })
+                            }
+                        },
+                    }
+                });
+            })
 
-                //show
-                @isset($show)
-                    $("#form-edit [name]").attr('disabled', 'disabled');
-                    $("#form-edit [type='submit']").hide();
-                    $("#form-edit .css-switch").addClass('disabled');
-                @endisset
+            //show
+            @isset($show)
+                $("#formData [name]").attr('disabled', 'disabled');
+                $("#formData [type='submit']").hide();
+                $("#formData .css-switch").addClass('disabled');
+                $("#formBlock .block-header .block-title").text('{{ __('read') }}');
+            @endisset
 
         });
     </script>
