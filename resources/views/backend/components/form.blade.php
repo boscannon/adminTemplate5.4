@@ -1,4 +1,4 @@
-<div class="block" id="formBlock" style="display: none">
+<div class="block" id="formBlock" style="visibility: hidden;">
     <div class="block-header block-header-default">
         <h3 class="block-title">{{ __('edit') }}</h3>
     </div>
@@ -13,7 +13,7 @@
                   @isset($edit)
                   <li class="nav-item d-md-flex flex-md-column">
                     <button class="nav-link fs-sm text-md-start rounded-0" data-bs-toggle="tab" data-bs-target="#btabs-vertical-audit" role="tab" aria-controls="btabs-vertical-audit" aria-selected="false">
-                      <i class="fa fa-fw fa-user-circle opacity-50 me-1 d-none d-sm-inline-block"></i>{{ __('audit') }}</a>
+                      <i class="fa fa-fw fa-window-restore opacity-50 me-1 d-none d-sm-inline-block"></i>{{ __('audit') }}</a>
                     </button>
                   </li>
                   @endisset
@@ -24,7 +24,7 @@
                 </div>
                 @isset($edit)
                 <div class="tab-pane" id="btabs-vertical-audit" role="tabpanel" aria-labelledby="btabs-vertical-audit-tab" tabindex="0">
-                    @include('backend.partials.audits', [ 'table' => $routeNameData, 'table_id' => $data->id ])
+                    @include('backend.components.audits', [ 'table' => $routeNameData, 'table_id' => $data->id ])
                 </div>
                 @endisset
             </div>
@@ -36,8 +36,8 @@
 <script>
 $(function() {
     setTimeout(() => {
-        $("#formBlock").show();
-    }, 1);
+        $("#formBlock").css("visibility", "initial");
+    }, 0.1);
 });
 </script>
 @endpush
