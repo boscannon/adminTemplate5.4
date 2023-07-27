@@ -135,6 +135,7 @@ return [
     */
 
     'upload' => 'upload',
+    'tmp' => 'tmp',
 
     'providers' => [
 

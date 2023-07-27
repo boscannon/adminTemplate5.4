@@ -488,6 +488,13 @@
                 FilePondPluginFileEncode
             );
             FilePond.setOptions({
+                server: {
+                  process: '{{ route('backend.tmp_files.store') }}',
+                  revert: '{{ route('backend.tmp_files.destroy') }}',
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                },
                 allowPaste: false
             });
 

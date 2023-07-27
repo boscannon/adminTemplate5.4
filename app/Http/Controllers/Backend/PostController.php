@@ -62,7 +62,7 @@ class PostController extends Controller
 
             foreach($validatedData['images'] as $value){
                 if($value = json_decode($value, true)){
-                    $data->addMediaFromBase64($value['data'])->usingFileName($value['name'])->toMediaCollection('images');
+                    $data->addMedia($value['path'])->usingFileName($value['file_name'])->toMediaCollection('images');
                 }
             }
 
@@ -117,10 +117,13 @@ class PostController extends Controller
             $data = CrudModel::findOrFail($id);
             $data->update($validatedData);
 
+<<<<<<< HEAD
             $data->clearMediaCollection('images');
+=======
+>>>>>>> eb5cb3b156d7cabcb717a3c6570ddf5de6790c65
             foreach($validatedData['images'] as $value){
                 if($value = json_decode($value, true)){
-                    $data->addMediaFromBase64($value['data'])->usingFileName($value['name'])->toMediaCollection('images');
+                    $data->addMedia($value['path'])->usingFileName($value['file_name'])->toMediaCollection('images');
                 }
             }
 
