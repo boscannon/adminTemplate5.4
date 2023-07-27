@@ -33,9 +33,6 @@ Route::group(['as' => 'backend.', 'prefix' => 'backend'],function () {
         //操作紀錄
         Route::resource('/audits', Controllers\Backend\AuditController::class);
 
-        //post
-        Route::resource('/posts', Controllers\Backend\PostController::class);
-
         Route::group(['prefix' => 'users_setting'],function () {
             //新增管理員
             Route::resource('/users', Controllers\Backend\UserController::class);
