@@ -650,9 +650,12 @@
 
           function successFunc(data, path){
             Swal.fire({ text: data.message, icon: 'success' }).then(function() {
-                // location.href = path;
+                var create = "{{ request()->is('*/create') }}";
+                if(create){
+                  location.href = path;
+                }
             });
-          }          
+          }
         </script>
     @stack('scripts')
 </body>
