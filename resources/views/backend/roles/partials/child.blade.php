@@ -8,7 +8,11 @@
           @foreach($actions as $action)
             <li
               data-id="{{ $action['permissions'].' '.$value['permissions'] }}"
-              data-jstree='{ "selected" : {{ isset($data) && $data->getPermissionNames()->search($action['permissions'].' '.$value['permissions']) !== false ? 'true' : 'false' }} }'
+              @if($data->super_admin)
+                data-jstree='{ "selected" : true }'
+              @else
+                data-jstree='{ "selected" : {{ isset($data) && $data->hasPermissionTo("{$action['permissions']} {$value['permissions']}") }} }'
+              @endif
             >{{ __($action["name"]) }}</li>
           @endforeach
         </ul>
