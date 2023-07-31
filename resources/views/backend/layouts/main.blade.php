@@ -650,9 +650,34 @@
 
           function successFunc(data, path){
             Swal.fire({ text: data.message, icon: 'success' }).then(function() {
-                // location.href = path;
+                var create = "{{ request()->is('*/create') }}";
+                if(create){
+                  location.href = path;
+                }
             });
-          }          
+          }
+          function deleteFunc(table, id, path){
+            Swal.fire({
+                text: '{{ __('confirm_delete') }}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '{{ __('sure') }}',
+                cancelButtonText: '{{ __('cancel') }}'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${ path }/${ id }`,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: function(data) {
+                            Swal.fire({ text: data.message, icon: 'success' }).then(function() {
+                                table.ajax.reload(null, false);
+                            });
+                        },
+                    });
+                }
+            });
+          }            
         </script>
     @stack('scripts')
 </body>

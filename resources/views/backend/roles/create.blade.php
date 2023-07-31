@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <a href="{{ route('backend.'.$routeNameData.'.index') }}" class="btn btn-secondary">{{ __('back') }}</a>
-                <button type="submit" class="btn btn-primary">{{ __('edit') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('create') }}</button>
             </form>
         </x-slot>
     </x-backend.form>

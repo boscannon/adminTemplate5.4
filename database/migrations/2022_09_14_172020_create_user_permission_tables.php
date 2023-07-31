@@ -14,7 +14,7 @@ class CreateUserPermissionTables extends Migration
      *
      * @return void
      */
-    public function up()
+     public function up()
     {
         // 重置角色和权限缓存
         app()['cache']->forget('spatie.permission.cache');
@@ -48,5 +48,5 @@ class CreateUserPermissionTables extends Migration
         $role = Role::where(['name' => '超管'])->first();
         $role->delete();
     }
-
+    
 }

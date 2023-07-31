@@ -90,8 +90,9 @@ class User extends Authenticatable
     
     public function getSuperAdminAttribute()
     {
-        // return true;
-        return in_array($this->email, explode(',', env('SUPER_ADMIN')));
+        foreach($this->getRoleNames() as $value){
+            return in_array($value, explode(',', env('SUPER_ADMIN_GROUP')));
+        }
     }
 
 }
