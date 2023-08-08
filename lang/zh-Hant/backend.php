@@ -4,7 +4,8 @@ return [
   'menu' => [
     'users' => '管理員',
     'users_setting' => '管理員設定',
-    'roles' => '角色',
+    'roles' => '角色權限設定',
+    'user_groups' => '管理員群組',
     'suppliers' => '供應商管理',
 
     'test' => '測試',
@@ -31,10 +32,7 @@ return [
   ],
   'roles' => [
     'name' => '角色名稱',
-    'permissions' => '角色權限'
-  ],
-  'posts' => [
-    'name' => '名稱',
-    'images' => '圖片(可多選)'
-  ],  
+    'permissions' => '角色權限',
+    'super_admin_err' => '該角色不能 刪除 或 修改',
+  ]
 ];
