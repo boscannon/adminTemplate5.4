@@ -8,7 +8,7 @@ $(function() {
     permissions.jstree({ "plugins" : [ "checkbox" ], "core": { "themes": { "icons": false }} });
     formData.ajaxForm({
         beforeSubmit: function(arr, $form, options) {
-            formData.find('button[type=submit]').attr('disabled',true);
+            formData.find('button[type=submit]').attr('disabled', true);
 
             $.each(permissions.jstree("get_selected", true), function() {
                 this.data.id && arr.push({
@@ -29,7 +29,7 @@ $(function() {
             successFunc(data, path);
         },
         complete: function() {
-            formData.find('button[type=submit]').attr('disabled',false);
+            formData.find('button[type=submit]').attr('disabled', false);
         }
     });
 });
