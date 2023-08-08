@@ -5,7 +5,7 @@ $(function() {
     var formData = $('#formData');
     formData.ajaxForm({
         beforeSubmit: function(arr, $form, options) {
-            formData.find('button[type=submit]').attr('disabled',true);
+            formData.find('button[type=submit]').attr('disabled', true);
             swal.fire({
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -18,7 +18,7 @@ $(function() {
             successFunc(data, path);
         },
         complete: function() {
-            formData.find('button[type=submit]').attr('disabled',false);
+            formData.find('button[type=submit]').attr('disabled', false);
         }
     });
 });
