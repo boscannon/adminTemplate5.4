@@ -16,6 +16,14 @@ $(function() {
                     value: this.data.id,
                 });
             });
+            
+            swal.fire({
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                title: 'Loading...',
+                icon: 'warning',
+            });            
         },
         success: function(data) {
             successFunc(data, path);

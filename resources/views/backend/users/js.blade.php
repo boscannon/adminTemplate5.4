@@ -6,6 +6,13 @@ $(function() {
     formData.ajaxForm({
         beforeSubmit: function(arr, $form, options) {
             formData.find('button[type=submit]').attr('disabled',true);
+            swal.fire({
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                title: 'Loading...',
+                icon: 'warning',
+            });            
         },
         success: function(data) {
             successFunc(data, path);
