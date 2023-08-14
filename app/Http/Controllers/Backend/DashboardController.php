@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User as crudModel;
 use DataTables;
-use Exception;
+use App\Exceptions\ErrorException as Exception;
 
 class DashboardController extends Controller
 {

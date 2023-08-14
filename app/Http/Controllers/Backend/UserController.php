@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User as crudModel;
 use App\Models\Role;
 use DataTables;
-use Exception;
+use App\Exceptions\ErrorException as Exception;
 use DB;
 
 class UserController extends Controller

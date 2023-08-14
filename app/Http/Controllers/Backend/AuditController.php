@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Audit as crudModel;
 use DataTables;
-use Exception;
+use App\Exceptions\ErrorException as Exception;
 
 class AuditController extends Controller
 {
@@ -24,12 +24,12 @@ class AuditController extends Controller
             })
             ->when($request->has('table_id'), function($query) use ($request) {
                 $query->where('table_id', $request->table_id);
-            });  
+            });
 
             return Datatables::eloquent($data)
                 ->addColumn('menu', function($model) {
                     return __("backend.menu.{$model->table}") ?? $model->table;
-                })               
+                })
                 ->toJson();
         }
         return view($this->view.'.index');

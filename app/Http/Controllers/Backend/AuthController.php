@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DataTables;
-use Exception;
+use App\Exceptions\ErrorException as Exception;
 use Hash;
 
 class AuthController extends Controller
@@ -27,7 +27,7 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [            
+        $rules = [
             'old_password'      => ['required', 'string'],
             'newly_password'      => ['required', 'string', 'confirmed'],
         ];
