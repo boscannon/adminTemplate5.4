@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User as crudModel;
 use DataTables;
-use App\Exceptions\ErrorException as Exception;
+use Exception;
 
 class DashboardController extends Controller
 {
-    public function __construct() {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
         $this->name = 'dashboard';
         $this->view = 'backend.'.$this->name;
     }

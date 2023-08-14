@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Audit as crudModel;
 use DataTables;
-use App\Exceptions\ErrorException as Exception;
+use Exception;
 
 class AuditController extends Controller
 {
-    public function __construct() {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
         $this->name = 'audits';
         $this->view = 'backend.'.$this->name;
     }

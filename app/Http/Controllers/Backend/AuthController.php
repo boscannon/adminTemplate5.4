@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DataTables;
-use App\Exceptions\ErrorException as Exception;
+use Exception;
 use Hash;
 
 class AuthController extends Controller
 {
     static $view = 'backend.edit_password';
+
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
+    }
 
     public function index(Request $request)
     {
@@ -49,7 +54,7 @@ class AuthController extends Controller
             User::findOrFail(auth()->user()->id)->update(array_merge($validatedData, ['password' => bcrypt($request->newly_password)]));
             return response()->json(['message' => __('edit').__('success')]);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 }

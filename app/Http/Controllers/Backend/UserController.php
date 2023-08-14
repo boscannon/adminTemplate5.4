@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\User as crudModel;
 use App\Models\Role;
 use DataTables;
-use App\Exceptions\ErrorException as Exception;
+use Exception;
 use DB;
 
 class UserController extends Controller
 {
-    public function __construct() {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
         $this->name = 'users';
         $this->view = 'backend.'.$this->name;
         $this->rules = [
@@ -71,7 +73,7 @@ class UserController extends Controller
             return response()->json(['message' => __('create').__('success')]);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 
@@ -143,7 +145,7 @@ class UserController extends Controller
             return response()->json(['message' => __('edit').__('success')]);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 
@@ -161,7 +163,7 @@ class UserController extends Controller
             $data->delete();
             return response()->json(['message' => __('delete').__('success')]);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 
@@ -182,7 +184,7 @@ class UserController extends Controller
             $data->update($validatedData);
             return response()->json(['message' => __('edit').__('success')]);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 }
