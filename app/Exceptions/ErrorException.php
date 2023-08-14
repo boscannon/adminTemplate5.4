@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\ErrorException as Exception;
+use Exception;
 use Log;
 
 class ErrorException extends Exception
