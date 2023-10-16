@@ -174,7 +174,7 @@ class {{ class }} extends Controller
 
     /**
      * 轉換資料
-     * @param Array $
+     * @param Array $data
      * @return Array
      */
     public function translation($data)
