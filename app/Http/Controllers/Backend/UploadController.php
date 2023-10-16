@@ -10,6 +10,11 @@ use Image;
 
 class UploadController extends Controller
 {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,16 +43,16 @@ class UploadController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [            
+        $rules = [
             'image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif'],
             'pdf' => ['nullable', 'file', 'mimes:pdf'],
-            
+
             'images' => ['nullable', 'array'],
             'images.*' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif'],
             'pdfs' => ['nullable', 'array'],
             'pdfs.*' => ['nullable', 'file', 'mimes:pdf'],
             'home_carousel' => ['nullable', 'array'],
-            'home_carousel.*' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif'],                           
+            'home_carousel.*' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif'],
         ];
 
         $messages = [];
@@ -56,12 +61,12 @@ class UploadController extends Controller
             'image' => __('image'),
             'pdf' => __('pdf'),
             'images' => __('image'),
-            'pdfs' => __('pdf'),   
-            'home_carousel' => __('image'),         
+            'pdfs' => __('pdf'),
+            'home_carousel' => __('image'),
         ];
 
         $validatedData = $request->validate($rules, $messages, $attributes);
-        
+
         try{
             foreach(['image', 'pdf', 'images', 'pdfs'] as $type){
                 if (isset($validatedData[$type])) {
@@ -73,11 +78,11 @@ class UploadController extends Controller
                         'path' => '/'.$path
                     ];
                     return response()->json($data);
-                }     
-            }      
+                }
+            }
             return response()->json([]);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
+            return $this->httpService->error($e);
         }
     }
 

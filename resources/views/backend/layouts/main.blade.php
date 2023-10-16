@@ -665,6 +665,13 @@
                 cancelButtonText: '{{ __('cancel') }}'
             }).then(function(result) {
                 if (result.isConfirmed) {
+                    swal.fire({
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        title: 'Loading...',
+                        icon: 'warning',
+                    });                      
                     $.ajax({
                         url: `${ path }/${ id }`,
                         type: 'DELETE',

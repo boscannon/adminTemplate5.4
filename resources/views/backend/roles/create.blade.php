@@ -5,12 +5,12 @@
         <x-slot:formContent>
             <form id="formData" action="{{ route('backend.'.$routeNameData.'.store') }}" method="post">
                 @csrf
-                <div class="form-row">
-                    <div class="form-group col-md-12 mb-4">
+                <div class="row">
+                    <div class="col-md-12 mb-4">
                         <label>{{ __('name') }}<span class="text-danger">*</span></label>
                         <input type="text" required name="name" class="form-control" placeholder='{{ __("backend.$routeNameData.name") }}'>
                     </div>
-                    <div class="form-group col-md-12 mb-4">
+                    <div class="col-md-12 mb-4">
                         <label>{{ __("backend.$routeNameData.permissions") }}</label>
                         <div class="ml-2 form-group">
                             <div id="permissions" class="demo">

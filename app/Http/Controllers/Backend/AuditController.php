@@ -10,7 +10,9 @@ use Exception;
 
 class AuditController extends Controller
 {
-    public function __construct() {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
         $this->name = 'audits';
         $this->view = 'backend.'.$this->name;
     }
@@ -24,12 +26,12 @@ class AuditController extends Controller
             })
             ->when($request->has('table_id'), function($query) use ($request) {
                 $query->where('table_id', $request->table_id);
-            });  
+            });
 
             return Datatables::eloquent($data)
                 ->addColumn('menu', function($model) {
                     return __("backend.menu.{$model->table}") ?? $model->table;
-                })               
+                })
                 ->toJson();
         }
         return view($this->view.'.index');

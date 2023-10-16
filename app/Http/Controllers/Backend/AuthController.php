@@ -13,6 +13,11 @@ class AuthController extends Controller
 {
     static $view = 'backend.edit_password';
 
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
+    }
+
     public function index(Request $request)
     {
         return view(self::$view.'.edit');
@@ -27,7 +32,7 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [            
+        $rules = [
             'old_password'      => ['required', 'string'],
             'newly_password'      => ['required', 'string', 'confirmed'],
         ];
@@ -49,7 +54,7 @@ class AuthController extends Controller
             User::findOrFail(auth()->user()->id)->update(array_merge($validatedData, ['password' => bcrypt($request->newly_password)]));
             return response()->json(['message' => __('edit').__('success')]);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 }

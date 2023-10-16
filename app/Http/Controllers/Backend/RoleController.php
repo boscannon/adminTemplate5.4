@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\Role as crudModel;
 use Spatie\Permission\Models\Permission;
 use DataTables;
-use App\Exceptions\ErrorException as Exception;
+use Exception;
 use DB;
 
 class RoleController extends Controller
 {
-    public function __construct() {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
         $this->name = 'roles';
         $this->view = 'backend.'.$this->name;
         $this->rules = [
@@ -72,7 +74,7 @@ class RoleController extends Controller
             return response()->json(['message' => __('create').__('success')]);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 
@@ -137,7 +139,7 @@ class RoleController extends Controller
             return response()->json(['message' => __('edit').__('success')]);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 
@@ -155,7 +157,7 @@ class RoleController extends Controller
             $data->delete();
             return response()->json(['message' => __('delete').__('success')]);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 
@@ -176,7 +178,7 @@ class RoleController extends Controller
             $data->update($validatedData);
             return response()->json(['message' => __('edit').__('success')]);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()],422);
+            return $this->httpService->error($e);
         }
     }
 

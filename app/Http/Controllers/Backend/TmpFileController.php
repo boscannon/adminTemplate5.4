@@ -11,6 +11,11 @@ use Image;
 
 class TmpFileController extends Controller
 {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -20,7 +25,7 @@ class TmpFileController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->all();
-        
+
         try{
             foreach($validatedData as $value){
                 $file = is_array($value) ? $value[0] : $value;
@@ -42,9 +47,9 @@ class TmpFileController extends Controller
 
                 return response()->json($data);
             }
-            
+
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
+            return $this->httpService->error($e);
         }
     }
 

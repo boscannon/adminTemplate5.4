@@ -10,7 +10,9 @@ use Exception;
 
 class DashboardController extends Controller
 {
-    public function __construct() {
+    public function __construct(
+        private readonly \App\Service\HttpService $httpService,
+    ) {
         $this->name = 'dashboard';
         $this->view = 'backend.'.$this->name;
     }

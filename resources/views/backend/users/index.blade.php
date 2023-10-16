@@ -24,7 +24,6 @@ $(function() {
     var table = tableList.DataTable({
         processing: true,
         serverSide: true,
-        responsive: true,
         scrollX: true,
         ajax: path,
         order: [[5, 'desc']],
