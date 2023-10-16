@@ -1,0 +1,186 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Models\Model as crudModel;
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+use DataTables;
+use Exception;
+use DB;
+
+class {{ class }} extends Controller
+{
+    public function __construct(
+    ) {
+        $this->name = 'model';
+        $this->view = 'backend.'.$this->name;
+        $this->rules = [
+
+        ];
+        $this->messages = [
+
+        ];
+        $this->attributes = __("backend.{$this->name}");
+    }
+
+    /**
+     * 列表顯示
+     * @return Renderable
+     */
+    public function index(Request $request)
+    {
+        $this->authorize('read '.$this->name);
+
+        if ($request->ajax()) {
+
+            $data = CrudModel::query();
+
+            return Datatables::eloquent($data)
+                ->make(true);
+        }
+
+        return view($this->view.'.index');
+    }
+
+    /**
+     * 新增頁面
+     * @return Renderable
+     */
+    public function create()
+    {
+        $this->authorize('create '.$this->name);
+
+        return view($this->view.'.create');
+    }
+
+    /**
+     * 新增資料
+     * @param Request $request
+     * @return Renderable
+     */
+    public function store(Request $request)
+    {
+        $this->authorize('create '.$this->name);
+
+        $validatedData = $request->validate($this->rules, $this->messages, $this->attributes);
+
+        try{
+            DB::beginTransaction();
+
+            $data = CrudModel::create($this->translation($validatedData));
+
+            DB::commit();
+
+            return response()->json(['message' => __('create').__('success')]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json(['message' => $e->getMessage()],422);
+        }
+    }
+
+    /**
+     * 顯示該筆資料
+     * @param int $id
+     * @return Renderable
+     */
+    public function show($id)
+    {
+        $this->authorize('read '.$this->name);
+
+        $data = CrudModel::findOrFail($id);
+
+        if (request()->ajax()) {
+            return $data;
+        }
+
+        return view($this->view.'.edit')->with([
+            'data' => $data,
+            'show' => true
+        ]);
+    }
+
+    /**
+     * 修改該筆資料
+     * @param int $id
+     * @return Renderable
+     */
+    public function edit($id)
+    {
+        $this->authorize('edit '.$this->name);
+
+        $data = CrudModel::findOrFail($id);
+
+        return view($this->view.'.edit')->with([
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * 更新該筆資料
+     * @param Request $request
+     * @param int $id
+     * @return Renderable
+     */
+    public function update(Request $request, $id)
+    {
+        $this->authorize('edit '.$this->name);
+
+        $validatedData = $request->validate($this->rules, $this->messages, $this->attributes);
+
+        try{
+            DB::beginTransaction();
+
+            $data = CrudModel::findOrFail($id);
+            $data->update($this->translation($validatedData));
+
+            DB::commit();
+
+            return response()->json(['message' => __('edit').__('success')]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json(['message' => $e->getMessage()],422);
+        }
+    }
+
+    /**
+     * 刪除該筆資料
+     * @param int $id
+     * @return Renderable
+     */
+    public function destroy($id)
+    {
+        $this->authorize('delete '.$this->name);
+
+        try{
+            DB::beginTransaction();
+
+            $data = CrudModel::findOrFail($id);
+            $data->delete();
+
+            DB::commit();
+
+            return response()->json(['message' => __('delete').__('success')]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json(['message' => $e->getMessage()],422);
+        }
+    }
+
+
+    /**
+     * 轉換資料
+     * @param Array $
+     * @return Array
+     */
+    public function translation($data)
+    {
+        //轉換codeing
+
+        return $data;
+    }
+}
