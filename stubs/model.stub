@@ -14,7 +14,9 @@ class {{ class }} extends Model
     //異動紀錄
     use \App\Traits\ObserverTrait;
 
-    protected $guarded = [];
+    protected $fillable = [
+
+    ];
 
     /**
      * 異動記錄設定
