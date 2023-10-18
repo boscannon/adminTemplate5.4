@@ -4,7 +4,7 @@ namespace {{ namespace }};
 
 use App\Http\Controllers\Controller;
 use {{ namespacedModel }} as crudModel;
-use {{ rootNamespace }}Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use {{ namespacedRequests }}
 
 use DataTables;
