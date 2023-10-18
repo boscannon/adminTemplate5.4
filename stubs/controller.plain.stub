@@ -2,6 +2,7 @@
 
 namespace {{ namespace }};
 
+use App\Http\Controllers\Controller;
 use App\Models\Model as crudModel;
 use {{ rootNamespace }}Http\Controllers\Controller;
 use Illuminate\Http\Request;
